@@ -25,8 +25,8 @@ class _ScreenCategoryState extends State<ScreenCategory>
         TabBar(
             controller: tabController,
             labelColor: const Color.fromARGB(255, 0, 0, 0),
-            indicatorColor: Color.fromARGB(255, 52, 238, 58),
-            dividerColor: Color.fromARGB(255, 9, 9, 9),
+            indicatorColor: const Color.fromARGB(255, 52, 238, 58),
+            dividerColor: const Color.fromARGB(255, 9, 9, 9),
             unselectedLabelColor: const Color.fromARGB(255, 205, 201, 201),
             tabs: const <Widget>[
               Tab(text: 'Income'),
