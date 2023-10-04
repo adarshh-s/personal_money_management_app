@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_money_managment_app/categories/catagory_add%20_popup.dart';
 import 'package:personal_money_managment_app/categories/screen_category.dart';
 import 'package:personal_money_managment_app/home/widgets/bottomnavigation.dart';
 import 'package:personal_money_managment_app/transactions/screen_transaction.dart';
@@ -34,6 +35,7 @@ class ScreenHome extends StatelessWidget {
             print("add transaction");
           } else {
             print("add category");
+            showCatageoryAddPopup(context);
           }
         },
         backgroundColor: const Color.fromARGB(255, 43, 207, 18),

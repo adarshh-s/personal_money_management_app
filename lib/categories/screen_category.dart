@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:personal_money_managment_app/categories/expense_category_list.dart';
 import 'package:personal_money_managment_app/categories/income_category_list.dart';
+import 'package:personal_money_managment_app/db/category/category_db.dart';
 
 class ScreenCategory extends StatefulWidget {
   const ScreenCategory({super.key});
@@ -15,6 +16,7 @@ class _ScreenCategoryState extends State<ScreenCategory>
   @override
   void initState() {
     super.initState();
+    CategoryDb().refreshUI();
     tabController = TabController(length: 2, vsync: this);
   }
 
