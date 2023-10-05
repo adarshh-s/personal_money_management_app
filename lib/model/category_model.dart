@@ -30,4 +30,6 @@ class CategoryModel {
     required this.type,
     this.isDeleted = false,
   });
+
+  static fromString(CategoryModel category) {}
 }

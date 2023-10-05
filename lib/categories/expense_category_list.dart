@@ -7,6 +7,7 @@ class ExpenseCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _categoryDb = CategoryDb.instance;
     return ValueListenableBuilder(
         valueListenable: CategoryDb().expenseCategoryListListener,
         builder: (BuildContext ctx, List<CategoryModel> newlist, Widget? _) {
@@ -23,7 +24,10 @@ class ExpenseCategoryList extends StatelessWidget {
                     textColor: Colors.white,
                     title: Text(category.name),
                     trailing: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.delete)),
+                        onPressed: () {
+                          _categoryDb.deleteCategory(category);
+                        },
+                        icon: const Icon(Icons.delete)),
                   ),
                 );
               },

@@ -24,7 +24,7 @@ class CategoryDb implements CategoryDbFunctions {
   @override
   Future<void> insertCategory(CategoryModel value) async {
     final categoryDatabase = await Hive.openBox<CategoryModel>(categoryDbName);
-    categoryDatabase.add(value);
+    categoryDatabase.put(value.id, value);
     refreshUI();
   }
 
@@ -52,9 +52,9 @@ class CategoryDb implements CategoryDbFunctions {
   }
 
   @override
-  Future<void> deleteCategory(CategoryModel catageor) async {
+  Future<void> deleteCategory(CategoryModel catageory) async {
     final _categoryDatabase = await Hive.openBox<CategoryModel>(categoryDbName);
-    await _categoryDatabase.delete(catageor.id);
+    await _categoryDatabase.delete(catageory.id);
     refreshUI();
   }
 }

@@ -15,7 +15,6 @@ class IncomeCategoryList extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               itemBuilder: (ctx, index) {
                 final category = newlist[index];
-                final categoryNew = CategoryModel.fromString(category);
                 return Card(
                   color: const Color.fromARGB(255, 80, 232, 83),
                   elevation: 0,
@@ -26,7 +25,7 @@ class IncomeCategoryList extends StatelessWidget {
                     title: Text(category.name),
                     trailing: IconButton(
                         onPressed: () {
-                          _categoryDb.deleteCategory(categoryNew.id);
+                          _categoryDb.deleteCategory(category);
                         },
                         icon: const Icon(Icons.delete)),
                   ),
