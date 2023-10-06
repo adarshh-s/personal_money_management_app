@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:personal_money_managment_app/db/category/category_db.dart';
+import 'package:personal_money_managment_app/db/transaction/transaction_db.dart';
 import 'package:personal_money_managment_app/model/category_model.dart';
+import 'package:personal_money_managment_app/model/transaction_model.dart';
 
 class ScreenAddTransaction extends StatefulWidget {
   static const routeName = 'add-transaction';
@@ -14,6 +16,16 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
   DateTime? _selectedDate;
   CategoryType? _selectedCategoryType;
   CategoryModel? _selectedCategoryModel;
+  String? _categoryID;
+  final _purposeEditingController = TextEditingController();
+  final _amountEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    _selectedCategoryType = CategoryType.income;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +46,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
           children: [
             //purpose
             TextFormField(
+              controller: _purposeEditingController,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "purpose"),
@@ -43,6 +56,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
             ),
             //amount
             TextFormField(
+              controller: _amountEditingController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "amount"),
@@ -83,9 +97,18 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                 Row(
                   children: [
                     Radio(
+                        fillColor: MaterialStateColor.resolveWith((states) {
+                          return const Color.fromARGB(255, 43, 207, 18);
+                        }),
+                        hoverColor: const Color.fromARGB(255, 43, 207, 18),
                         value: CategoryType.income,
-                        groupValue: CategoryType.income,
-                        onChanged: (newValue) {}),
+                        groupValue: _selectedCategoryType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedCategoryType = CategoryType.income;
+                            _categoryID = null;
+                          });
+                        }),
                     const Text(
                       "Income",
                       selectionColor: Color.fromARGB(255, 43, 207, 18),
@@ -100,8 +123,13 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                         }),
                         hoverColor: const Color.fromARGB(255, 43, 207, 18),
                         value: CategoryType.expense,
-                        groupValue: CategoryType.income,
-                        onChanged: (newValue) {}),
+                        groupValue: _selectedCategoryType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedCategoryType = CategoryType.expense;
+                            _categoryID = null;
+                          });
+                        }),
                     const Text(
                       "Expense",
                       selectionColor: Color.fromARGB(255, 43, 207, 18),
@@ -113,16 +141,33 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
             //catagory type
 
             DropdownButton(
-                hint: const Text("Select Catagory"),
-                items: CategoryDb().expenseCategoryListListener.value.map((e) {
-                  return DropdownMenuItem(
-                    value: e.id,
-                    child: Text(e.name),
-                  );
-                }).toList(),
-                onChanged: (selectedValue) {}),
+              hint: const Text("Select Catagory"),
+              value: _categoryID,
+              items: (_selectedCategoryType == CategoryType.income
+                      ? CategoryDb().incomeCategoryListListner
+                      : CategoryDb().expenseCategoryListListener)
+                  .value
+                  .map((e) {
+                return DropdownMenuItem(
+                  value: e.id,
+                  onTap: () {
+                    print(e.toString());
+                    _selectedCategoryModel = e;
+                  },
+                  child: Text(e.name),
+                );
+              }).toList(),
+              onChanged: (selectedValue) {
+                setState(() {
+                  _categoryID = selectedValue;
+                });
+              },
+              onTap: () {},
+            ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                addTransaction();
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) {
                   return const Color.fromARGB(255, 43, 207, 18);
@@ -134,5 +179,42 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
         ),
       )),
     );
+  }
+
+  Future<void> addTransaction() async {
+    final purposeText = _purposeEditingController.text;
+    final amountText = _amountEditingController.text;
+    if (purposeText.isEmpty) {
+      return;
+    }
+    if (amountText.isEmpty) {
+      return;
+    }
+    if (_categoryID == null) {
+      return;
+    }
+    if (_selectedDate == null) {
+      return;
+    }
+    if (_selectedCategoryModel == null) {
+      return;
+    }
+    final parsedAmount = double.tryParse(amountText);
+    if (parsedAmount == null) {
+      return;
+    }
+    // _selectedDate
+    //_selectedCategoryType
+    //_categoryID
+    final model = TransactionModel(
+      purpose: purposeText,
+      amount: parsedAmount,
+      date: _selectedDate!,
+      type: _selectedCategoryType!,
+      category: _selectedCategoryModel!,
+    );
+    await TransactionDb.instance.addTransaction(model);
+    Navigator.of(context).pop();
+    TransactionDb.instance.refreshUI();
   }
 }
