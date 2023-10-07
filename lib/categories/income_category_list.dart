@@ -16,7 +16,7 @@ class IncomeCategoryList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 final category = newlist[index];
                 return Card(
-                  color: const Color.fromARGB(255, 80, 232, 83),
+                  color: const Color.fromARGB(255, 23, 160, 25),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),

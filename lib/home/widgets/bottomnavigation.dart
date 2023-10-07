@@ -10,7 +10,7 @@ class BottomNavigation extends StatelessWidget {
       valueListenable: ScreenHome.getValueNotifier,
       builder: (BuildContext ctx, int updatedIndex, Widget? _) {
         return BottomNavigationBar(
-            selectedItemColor: const Color.fromARGB(255, 43, 207, 18),
+            selectedItemColor: const Color.fromARGB(255, 65, 27, 119),
             unselectedItemColor: Colors.grey,
             currentIndex: updatedIndex,
             onTap: (newIndex) {

@@ -31,7 +31,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Finway"),
-        backgroundColor: const Color.fromARGB(255, 43, 207, 18),
+        backgroundColor: const Color.fromARGB(255, 65, 27, 119),
         centerTitle: true,
         toolbarHeight: 100,
         shadowColor: Colors.grey,
@@ -65,7 +65,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
             TextButton.icon(
                 style: ButtonStyle(
                     iconColor: MaterialStateColor.resolveWith((states) {
-                  return const Color.fromARGB(255, 43, 207, 18);
+                  return const Color.fromARGB(255, 88, 41, 155);
                 })),
                 onPressed: () async {
                   final selectedDateTemp = await showDatePicker(
@@ -76,9 +76,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                       lastDate: DateTime.now());
                   if (selectedDateTemp == null) {
                     return;
-                  } else {
-                    print(_selectedDate.toString());
-                  }
+                  } //else {
+                  //print(_selectedDate.toString());
+                  //}
                   setState(() {
                     _selectedDate = selectedDateTemp;
                   });
@@ -88,7 +88,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                   _selectedDate == null
                       ? "select date"
                       : _selectedDate.toString(),
-                  selectionColor: const Color.fromARGB(255, 43, 207, 18),
+                  selectionColor: const Color.fromARGB(255, 88, 41, 155),
                 )),
             //income or expense radio buttons
             Row(
@@ -98,9 +98,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                   children: [
                     Radio(
                         fillColor: MaterialStateColor.resolveWith((states) {
-                          return const Color.fromARGB(255, 43, 207, 18);
+                          return const Color.fromARGB(255, 88, 41, 155);
                         }),
-                        hoverColor: const Color.fromARGB(255, 43, 207, 18),
+                        hoverColor: const Color.fromARGB(255, 88, 41, 155),
                         value: CategoryType.income,
                         groupValue: _selectedCategoryType,
                         onChanged: (newValue) {
@@ -111,7 +111,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                         }),
                     const Text(
                       "Income",
-                      selectionColor: Color.fromARGB(255, 43, 207, 18),
+                      selectionColor: Color.fromARGB(255, 88, 41, 155),
                     )
                   ],
                 ),
@@ -119,9 +119,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                   children: [
                     Radio(
                         fillColor: MaterialStateColor.resolveWith((states) {
-                          return const Color.fromARGB(255, 43, 207, 18);
+                          return const Color.fromARGB(255, 88, 41, 155);
                         }),
-                        hoverColor: const Color.fromARGB(255, 43, 207, 18),
+                        hoverColor: const Color.fromARGB(255, 88, 41, 155),
                         value: CategoryType.expense,
                         groupValue: _selectedCategoryType,
                         onChanged: (newValue) {
@@ -132,7 +132,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                         }),
                     const Text(
                       "Expense",
-                      selectionColor: Color.fromARGB(255, 43, 207, 18),
+                      selectionColor: Color.fromARGB(255, 88, 41, 155),
                     )
                   ],
                 ),
@@ -151,7 +151,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                 return DropdownMenuItem(
                   value: e.id,
                   onTap: () {
-                    print(e.toString());
+                    //print(e.toString());
                     _selectedCategoryModel = e;
                   },
                   child: Text(e.name),
@@ -170,7 +170,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) {
-                  return const Color.fromARGB(255, 43, 207, 18);
+                  return const Color.fromARGB(255, 88, 41, 155);
                 }),
               ),
               child: const Text("submit"),
@@ -215,6 +215,8 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     );
     await TransactionDb.instance.addTransaction(model);
     Navigator.of(context).pop();
+    _purposeEditingController.clear();
+    _amountEditingController.clear();
     TransactionDb.instance.refreshUI();
   }
 }

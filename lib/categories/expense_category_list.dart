@@ -16,7 +16,7 @@ class ExpenseCategoryList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 final category = newlist[index];
                 return Card(
-                  color: const Color.fromARGB(255, 80, 232, 83),
+                  color: const Color.fromARGB(255, 181, 42, 42),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),

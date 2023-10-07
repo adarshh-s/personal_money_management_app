@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'package:flutter/material.dart';
 import 'package:personal_money_managment_app/db/category/category_db.dart';
 import 'package:personal_money_managment_app/model/category_model.dart';
@@ -35,23 +37,24 @@ Future<void> showCatageoryAddPopup(BuildContext context) async {
             Padding(
               padding: const EdgeInsets.only(left: 45, right: 45),
               child: ElevatedButton(
-                child: const Text("add"),
                 onPressed: () {
-                  final _name = _nameEditingController.text;
-                  if (_name.isEmpty) {
+                  final name = _nameEditingController.text;
+                  if (name.isEmpty) {
                     return;
                   }
                   final _type = selectCatagoryNotifier.value;
                   final category = CategoryModel(
                       id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      name: _name,
+                      name: name,
                       type: _type);
                   CategoryDb().insertCategory(category);
                   Navigator.of(ctx).pop();
+                  _nameEditingController.clear();
                 },
                 style: const ButtonStyle(
                     padding: MaterialStatePropertyAll(EdgeInsets.all(10)),
                     fixedSize: MaterialStatePropertyAll(Size(20, 20))),
+                child: const Text("add"),
               ),
             )
           ],
@@ -64,6 +67,7 @@ class RadioButton extends StatelessWidget {
   final CategoryType type;
   const RadioButton({super.key, required this.title, required this.type});
 
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [

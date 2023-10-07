@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_money_managment_app/db/category/category_db.dart';
 import 'package:personal_money_managment_app/db/transaction/transaction_db.dart';
@@ -15,36 +16,47 @@ class ScreenTransactions extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: TransactionDb.instance.transactionListNotifier,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
-          print("ValueListenableBuilder rebuild"); //debug
-          if (newList.isEmpty) {
-            print("Transaction list is empty"); // Debug print
-            return const Text("No transactions available");
-          }
           return ListView.separated(
               padding: const EdgeInsets.all(15),
               //values
               itemBuilder: (ctx, index) {
                 final values = newList[index];
-                return Card(
-                  color: const Color.fromARGB(255, 80, 232, 83),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: ListTile(
-                    textColor: Colors.white,
-                    leading: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: values.type == CategoryType.income
-                          ? Colors.green
-                          : Colors.red,
+                return Slidable(
+                  key: Key(values.id!),
+                  startActionPane:
+                      ActionPane(motion: const ScrollMotion(), children: [
+                    SlidableAction(
+                      onPressed: (ctx) {
+                        TransactionDb.instance.deleteTransaction(values.id!);
+                      },
+                      backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
-                      child: Text(
-                        parseDate(values.date),
-                        textAlign: TextAlign.center,
+                      icon: Icons.delete,
+                      label: 'delete',
+                    )
+                  ]),
+                  child: Card(
+                    color: const Color.fromARGB(255, 88, 41, 155),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    child: ListTile(
+                      textColor: Colors.white,
+                      leading: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: values.type == CategoryType.income
+                            ? const Color.fromARGB(255, 36, 170, 40)
+                            : const Color.fromARGB(255, 192, 41, 31),
+                        foregroundColor: Colors.white,
+                        child: Text(
+                          parseDate(values.date),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      title: Text('₹ ${values.amount}'),
+                      subtitle: Text(values.purpose),
+                      trailing: Text(values.category.name),
                     ),
-                    title: Text('₹ ${values.amount}'),
-                    subtitle: Text(values.category.name),
                   ),
                 );
               },

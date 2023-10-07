@@ -16,7 +16,7 @@ class ScreenHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Finway"),
-        backgroundColor: const Color.fromARGB(255, 43, 207, 18),
+        backgroundColor: const Color.fromARGB(255, 65, 27, 119),
         centerTitle: true,
         toolbarHeight: 100,
         shadowColor: Colors.grey,
@@ -33,14 +33,14 @@ class ScreenHome extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (getValueNotifier.value == 0) {
-            print("add transaction");
+            //print("add transaction");
             Navigator.of(context).pushNamed(ScreenAddTransaction.routeName);
           } else {
-            print("add category");
+            //print("add category");
             showCatageoryAddPopup(context);
           }
         },
-        backgroundColor: const Color.fromARGB(255, 43, 207, 18),
+        backgroundColor: const Color.fromARGB(255, 65, 27, 119),
         child: const Icon(
           Icons.add,
         ),

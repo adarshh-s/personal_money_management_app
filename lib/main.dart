@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 12, 252, 20))),
+              seedColor: const Color.fromARGB(255, 80, 40, 137))),
       home: const ScreenHome(),
       routes: {
         ScreenAddTransaction.routeName: (ctx) => const ScreenAddTransaction(),
